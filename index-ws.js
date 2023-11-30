@@ -12,6 +12,7 @@ server.listen(3000, () => {
 });
 
 /**Begin web sockets */
+const WebSocketServer = require("ws").Server;
 
 const wss = new WebSocketServer({ server: server });
 
