@@ -13,28 +13,38 @@ server.listen(3000, () => {
 
 /**Begin web sockets */
 
-const WebSocketServer = require("ws").Server;
-
 const wss = new WebSocketServer({ server: server });
 
-wss.on("connection", function broadcast(ws) {
-  const numOfClients = wss.clients.size;
-  console.log("clients connected: ", numOfClients);
+wss.on("connection", function connection(ws) {
+  const numClients = wss.clients.size;
 
-  wss.broadcast(`current visitors: ${numOfClients}`);
+  console.log("clients connected: ", numClients);
+
+  wss.broadcast(`Current visitors: ${numClients}`);
 
   if (ws.readyState === ws.OPEN) {
-    ws.send("welcome to my server");
+    ws.send("welcome!");
   }
 
-  wss.on("close", function close() {
-    console.log("client has disconnected");
-    console.log("clients connected: ", numOfClients);
+  ws.on("close", function close() {
+    wss.broadcast(`Current visitors: ${wss.clients.size}`);
+    console.log("A client has disconnected");
+  });
+
+  ws.on("error", function error() {
+    //
   });
 });
 
+/**
+ * Broadcast data to all connected clients
+ * @param  {Object} data
+ * @void
+ */
 wss.broadcast = function broadcast(data) {
-  wss.clients.forEach((client) => {
+  console.log("Broadcasting: ", data);
+  wss.clients.forEach(function each(client) {
     client.send(data);
   });
 };
+/** End Websocket **/
