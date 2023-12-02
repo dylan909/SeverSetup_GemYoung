@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Websocket Demo</title>
   </head>
-  <body>
-    Websocket example
-  </body>
+
+  <body></body>
   <script>
     let ws;
     try {
@@ -15,10 +12,10 @@
       const proto = window.location.protocol === "https:" ? "wss" : "ws";
       ws = new WebSocket(`${proto}://${window.location.host}`);
     } catch (e) {
-      console.log(e);
+      //
     }
-    ws.onmessage = (e) => {
-      console.log(e.data);
+    ws.onmessage = (event) => {
+      console.log(event.data);
     };
   </script>
 </html>
